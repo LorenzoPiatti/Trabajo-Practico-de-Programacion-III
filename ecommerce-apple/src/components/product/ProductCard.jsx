@@ -9,7 +9,7 @@ function ProductCard({ product }) {
     width: "200px",
     textAlign: "center",
     justifyContent: "space-between",
-    height: "350px", // mismo alto para todos los productos
+    height: "350px", 
   };
 
   const imgStyle = {
@@ -21,7 +21,7 @@ function ProductCard({ product }) {
   const buttonStyle = {
     marginTop: "10px",
     padding: "8px 15px",
-    backgroundColor: "#000", // botones negros como querías
+    backgroundColor: "#000", 
     color: "#fff",
     border: "none",
     borderRadius: "5px",
