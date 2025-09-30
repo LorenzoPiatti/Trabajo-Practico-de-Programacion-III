@@ -1,9 +1,9 @@
 const products = [
   {
     id: 1,
-    name: "iPhone 15 Pro",
+    name: "iPhone 16 Pro",
     price: 1200,
-    image: "/assets/iphone15pro.jpg",
+    image: "/assets/iphone16pro.jpg",
     category: "iPhone"
   },
   {
@@ -22,7 +22,7 @@ const products = [
   },
   {
     id: 4,
-    name: "Apple Watch Series 9",
+    name: "Apple Watch Series 10",
     price: 599,
     image: "/assets/applewatch.jpg",
     category: "Watch"
