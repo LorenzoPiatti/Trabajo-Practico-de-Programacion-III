@@ -5,7 +5,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <img src="/src/assets/logo-apple-2.png" alt="logo" />
+        <img src="/assets/logo-apple-2.png" alt="logo" />
         <span>Apple Store</span>
       </div>
 
