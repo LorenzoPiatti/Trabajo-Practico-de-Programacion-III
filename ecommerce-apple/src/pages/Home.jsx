@@ -6,21 +6,21 @@ import products from "../data/products";
 function Home() {
   const featuredProducts = products.slice(0, 4);
 
-const bannerStyle = {
-  width: "100vw",              
-  maxWidth: "100%",            
-  height: "500px",
-  backgroundImage: 'url("/assets/banner.png")',
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "flex-start",
-  padding: "0 50px",
-  boxSizing: "border-box",      
-  color: "#fff",
-};
+  const bannerStyle = {
+    width: "100vw",
+    maxWidth: "100%",
+    height: "500px",
+    backgroundImage: 'url("/assets/banner.png")',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    padding: "0 50px",
+    boxSizing: "border-box",
+    color: "#fff",
+  };
 
   const bannerTitleStyle = {
     fontSize: "2.5rem",
@@ -42,27 +42,27 @@ const bannerStyle = {
     cursor: "pointer",
   };
 
-const sectionStyle = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  margin: "40px 0",
-  width: "100%",
-  boxSizing: "border-box",     
-};
+  const sectionStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    margin: "40px 0",
+    width: "100%",
+    boxSizing: "border-box",
+  };
 
-const productContainerStyle = {
-  display: "flex",
-  justifyContent: "center",
-  gap: "20px",
-  flexWrap: "wrap",
-  width: "100%",
-  boxSizing: "border-box",     
-};
+  const productContainerStyle = {
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+    flexWrap: "wrap",
+    width: "100%",
+    boxSizing: "border-box",
+  };
 
   return (
     <>
-      <Navbar />
+      <Navbar products={products} />
 
       <section style={bannerStyle}>
         <h1 style={bannerTitleStyle}>Los destacados del mes!</h1>

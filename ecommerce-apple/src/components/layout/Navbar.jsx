@@ -1,7 +1,34 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import "/src/styles/Navbar.css";
 
-function Navbar() {
+function Navbar({ products }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (value.length > 0) {
+      const results = products.filter((p) =>
+        p.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredProducts(results);
+      setShowDropdown(true);
+    } else {
+      setShowDropdown(false);
+    }
+  };
+
+  const handleSelect = (product) => {
+    navigate(`/product/${product.id}`);
+    setSearchTerm("");
+    setShowDropdown(false);
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-logo">
@@ -10,7 +37,21 @@ function Navbar() {
       </div>
 
       <div className="navbar-search">
-        <input type="text" placeholder="Buscar" />
+        <input 
+          type="text" 
+          placeholder="Buscar" 
+          value={searchTerm}
+          onChange={handleChange} 
+        />
+        {showDropdown && filteredProducts.length > 0 && (
+          <ul className="search-dropdown">
+            {filteredProducts.map((p) => (
+              <li key={p.id} onClick={() => handleSelect(p)}>
+                {p.name}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <ul className="navbar-links">
@@ -28,6 +69,6 @@ function Navbar() {
       </div>
     </nav>
   );
-};
+}
 
 export default Navbar;
