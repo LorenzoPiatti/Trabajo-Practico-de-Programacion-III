@@ -70,19 +70,17 @@ function Navbar({ products }) {
       <ul className="navbar-links">
         <li><Link to="/">Home</Link></li>
         <li><Link to="/catalog">Destacados</Link></li>
-        <li><Link to="/catalog">iPhones</Link></li>
-        <li><Link to="/catalog">Mac</Link></li>
-        <li><Link to="/catalog">iPad</Link></li>
-        <li><Link to="/catalog">Accesorios</Link></li>
+        <li><Link to="/catalog/iPhone">iPhones</Link></li>
+        <li><Link to="/catalog/Mac">Mac</Link></li>
+        <li><Link to="/catalog/iPad">iPad</Link></li>
+        <li><Link to="/catalog/Accesorios">Accesorios</Link></li>
       </ul>
 
       {/* Acciones de usuario */}
       <div className="navbar-actions">
         {isLoggedIn && currentUser ? (
           <>
-            <span className="navbar-user">
-              👤 {currentUser.email}
-            </span>
+            <span className="navbar-user">👤 {currentUser.email}</span>
             <button onClick={handleLogout}>Logout</button>
             <button onClick={() => navigate("/cart")}>🛒</button>
           </>

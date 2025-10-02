@@ -1,11 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import ProductList from "../components/product/ProductList";
+import Button from "../components/ui/Button";
 import products from "../data/products";
 
 function Home() {
-  const featuredProducts = products.slice(0, 4);
-
+  const navigate = useNavigate();
+  const featuredProducts = products.filter(p => p.featured); 
   const bannerStyle = {
     width: "100vw",
     maxWidth: "100%",
@@ -60,6 +62,10 @@ function Home() {
     boxSizing: "border-box",
   };
 
+  const handleGoToFeatured = () => {
+    navigate("/catalog"); // lleva al catalogo de destacados
+  };
+
   return (
     <>
       <Navbar products={products} />
@@ -67,7 +73,9 @@ function Home() {
       <section style={bannerStyle}>
         <h1 style={bannerTitleStyle}>Los destacados del mes!</h1>
         <p style={bannerSubtitleStyle}>Llévalos ahora!</p>
-        <button style={bannerButtonStyle}>Comprar</button>
+        <Button onClick={handleGoToFeatured} style={bannerButtonStyle}>
+          Comprar
+        </Button>
       </section>
 
       <section style={sectionStyle}>
@@ -83,3 +91,4 @@ function Home() {
 }
 
 export default Home;
+
