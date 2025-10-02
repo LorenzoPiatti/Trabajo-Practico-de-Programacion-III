@@ -8,6 +8,10 @@ function Navbar({ products }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
 
+  // Estado de sesión
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
   const handleChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -29,13 +33,21 @@ function Navbar({ products }) {
     setShowDropdown(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("currentUser");
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar">
+      {/* Logo */}
       <div className="navbar-logo">
         <img src="/assets/logo-apple-2.png" alt="logo" />
         <span>Apple Store</span>
       </div>
 
+      {/* Buscador */}
       <div className="navbar-search">
         <input
           type="text"
@@ -54,6 +66,7 @@ function Navbar({ products }) {
         )}
       </div>
 
+      {/* Links */}
       <ul className="navbar-links">
         <li><Link to="/">Home</Link></li>
         <li><Link to="/catalog">Destacados</Link></li>
@@ -63,10 +76,21 @@ function Navbar({ products }) {
         <li><Link to="/catalog/Accesorios">Accesorios</Link></li>
       </ul>
 
-
+      {/* Acciones de usuario */}
       <div className="navbar-actions">
-        <button>Inicia Sesión</button>
-        <button>🛒</button>
+        {isLoggedIn && currentUser ? (
+          <>
+            <span className="navbar-user">👤 {currentUser.email}</span>
+            <button onClick={handleLogout}>Logout</button>
+            <button onClick={() => navigate("/cart")}>🛒</button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => navigate("/login")}>Inicia Sesión</button>
+            <button onClick={() => navigate("/register")}>Registrarse</button>
+            <button onClick={() => navigate("/cart")}>🛒</button>
+          </>
+        )}
       </div>
     </nav>
   );
