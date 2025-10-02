@@ -1,0 +1,123 @@
+/* Estilos para formularios */
+
+/* Contenedor principal del formulario */
+.form-container {
+    
+    max-width: 400px;
+    width: 90%;
+   
+    margin: 0;
+    padding: 40px;
+   
+    background: #ffffff;
+    border-radius: 12px;
+   
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    
+    gap: 20px; 
+    transition: all 0.3s ease;
+}
+
+.form-container:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Título del formulario */
+.form-container h1 {
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+    color: #000;
+    font-weight: bold;
+}
+
+/* Campos del formulario */
+.form-input {
+    width: 100%;
+    
+    padding: 12px; 
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #0071e3;
+    box-shadow: 0 0 8px rgba(0, 113, 227, 0.3);
+}
+
+/* Botones */
+.form-button {
+    padding: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form-button:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+/* Pie del formulario */
+.form-footer {
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+/* Link para registro/inicio de sesión */
+.form-link {
+    color: #0071e3;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.form-link:hover {
+    color: #005bb5;
+    text-decoration: none;
+}
+
+/* Centrar el main */
+main {
+    
+    padding: 0; 
+    
+    
+    flex-grow: 1; /* Ocupa el espacio restante y empuja el footer */
+    display: flex;
+    justify-content: center; /* Centrado Horizontal */
+    align-items: center;    /* Centrado Vertical */
+    
+    background-color: transparent;
+}
+
+/* Etiquetas de campo */
+.form-field label {
+    display: block;
+    text-align: left;
+    
+    margin-bottom: 8px; 
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+/* Separar campos */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}

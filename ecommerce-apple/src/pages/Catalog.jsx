@@ -7,7 +7,8 @@ function Catalog() {
   return (
     <>
       <Navbar />
-      <main>
+      {/* Usamos el tag y la clase */}
+      <main className="catalog-content"> 
         <h1>Catálogo de Productos</h1>
         <ProductList products={products} />
       </main>
