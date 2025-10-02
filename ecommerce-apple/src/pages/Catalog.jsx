@@ -15,7 +15,8 @@ function Catalog() {
   return (
     <>
       <Navbar products={products} />
-      <main style={{ padding: "40px", textAlign: "center" }}>
+      {/* 🔑 CLAVE: ELIMINAR LOS ESTILOS EN LÍNEA y usar la clase CSS */}
+      <main className="catalog-content"> 
         <h1>
           {category
             ? `Productos de ${category}`

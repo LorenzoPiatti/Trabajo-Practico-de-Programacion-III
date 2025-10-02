@@ -13,7 +13,7 @@ function ProductCard({ product }) {
     width: "200px",
     textAlign: "center",
     justifyContent: "space-between",
-    height: "350px",
+    // ❌ ELIMINAR: height: "350px", // Deja que el contenido determine la altura.
   };
 
   const imgStyle = {
@@ -39,11 +39,14 @@ function ProductCard({ product }) {
   return (
     <div style={cardStyle}>
       <img src={product.image} alt={product.name} style={imgStyle} />
-      <div>
+      
+      {/* 🔑 CLAVE: Añadir una clase para aplicar flex-grow en CSS */}
+      <div className="product-details"> 
         <h3>{product.name}</h3>
         <p>${product.price}</p>
         <p>Envío gratis</p>
       </div>
+      
       <button style={buttonStyle} onClick={handleClick}>
         Comprar
       </button>

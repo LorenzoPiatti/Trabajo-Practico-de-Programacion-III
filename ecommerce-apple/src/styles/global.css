@@ -55,3 +55,33 @@ main.catalog-content {
     text-align: center; 
     margin-bottom: 40px; 
 }
+
+/* Añadir este CSS a tu archivo de estilos de catálogo/global */
+
+.product-card {
+    /* Mantenemos el Flexbox vertical */
+    display: flex;
+    flex-direction: column;
+    
+    /* Le damos una altura mínima para que la cuadrícula se vea uniforme */
+    min-height: 380px; /* Ajusta este valor (mayor que 350px) para darle espacio */
+    
+    /* ... otros estilos de borde y padding si no están en línea ... */
+}
+
+/* 🔑 CLAVE: La regla que empuja el botón */
+.product-details {
+    /* Esto hace que ocupe todo el espacio extra y empuje el botón hacia abajo */
+    flex-grow: 1; 
+    
+    /* Opcional: Centrar el texto verticalmente dentro de este bloque de detalles */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra el texto si la altura es variable */
+}
+
+/* Ajuste al botón */
+.product-card button {
+    /* Aseguramos que el botón ocupe todo el ancho de la tarjeta */
+    width: 100%; 
+}
