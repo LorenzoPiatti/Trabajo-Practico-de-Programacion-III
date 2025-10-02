@@ -37,11 +37,11 @@ function Navbar({ products }) {
       </div>
 
       <div className="navbar-search">
-        <input 
-          type="text" 
-          placeholder="Buscar" 
+        <input
+          type="text"
+          placeholder="Buscar"
           value={searchTerm}
-          onChange={handleChange} 
+          onChange={handleChange}
         />
         {showDropdown && filteredProducts.length > 0 && (
           <ul className="search-dropdown">
@@ -57,11 +57,12 @@ function Navbar({ products }) {
       <ul className="navbar-links">
         <li><Link to="/">Home</Link></li>
         <li><Link to="/catalog">Destacados</Link></li>
-        <li><Link to="/catalog">iPhones</Link></li>
-        <li><Link to="/catalog">Mac</Link></li>
-        <li><Link to="/catalog">iPad</Link></li>
-        <li><Link to="/catalog">Accesorios</Link></li>
+        <li><Link to="/catalog/iPhone">iPhones</Link></li>
+        <li><Link to="/catalog/Mac">Mac</Link></li>
+        <li><Link to="/catalog/iPad">iPad</Link></li>
+        <li><Link to="/catalog/Accesorios">Accesorios</Link></li>
       </ul>
+
 
       <div className="navbar-actions">
         <button>Inicia Sesión</button>

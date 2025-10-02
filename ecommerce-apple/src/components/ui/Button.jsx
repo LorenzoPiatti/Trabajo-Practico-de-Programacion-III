@@ -1,5 +1,9 @@
-function Button({ children, onClick }) {
-  return <button onClick={onClick}>{children}</button>;
+function Button({ children, onClick, style, ...props }) {
+  return (
+    <button onClick={onClick} style={style} {...props}>
+      {children}
+    </button>
+  );
 }
 
 export default Button;
