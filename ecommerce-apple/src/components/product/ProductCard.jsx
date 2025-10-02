@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 function ProductCard({ product }) {
+  const navigate = useNavigate();
+
   const cardStyle = {
     display: "flex",
     flexDirection: "column",
@@ -9,7 +13,7 @@ function ProductCard({ product }) {
     width: "200px",
     textAlign: "center",
     justifyContent: "space-between",
-    height: "350px", 
+    height: "350px",
   };
 
   const imgStyle = {
@@ -21,11 +25,15 @@ function ProductCard({ product }) {
   const buttonStyle = {
     marginTop: "10px",
     padding: "8px 15px",
-    backgroundColor: "#000", 
+    backgroundColor: "#000",
     color: "#fff",
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
+  };
+
+  const handleClick = () => {
+    navigate(`/product/${product.id}`);
   };
 
   return (
@@ -36,7 +44,9 @@ function ProductCard({ product }) {
         <p>${product.price}</p>
         <p>Envío gratis</p>
       </div>
-      <button style={buttonStyle}>Comprar</button>
+      <button style={buttonStyle} onClick={handleClick}>
+        Comprar
+      </button>
     </div>
   );
 }
