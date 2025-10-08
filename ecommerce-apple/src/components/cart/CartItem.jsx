@@ -1,11 +1,13 @@
+import { useCartStore } from "../../store/CartStore";
+
 function CartItem({ item }) {
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+
   return (
-    <div>
-      <h4>{item.name}</h4>
-      <p>Cantidad: {item.quantity}</p>
-      <p>Precio: ${item.price * item.quantity}</p>
-      <button>Eliminar</button>
-    </div>
+    <li>
+      {item.name} - {item.quantity} x ${item.price}
+      <button onClick={() => removeFromCart(item.id)}>Eliminar</button>
+    </li>
   );
 }
 

@@ -3,27 +3,21 @@ import products from "../data/products";
 import Button from "../components/ui/Button";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { useCartStore } from "../store/CartStore";
 
 function ProductDetail() {
   const { id } = useParams();
   const product = products.find((p) => p.id === parseInt(id));
+
+  const addToCart = useCartStore((state) => state.addToCart);
 
   if (!product) {
     return <p>Producto no encontrado</p>;
   }
 
   const handleAddToCart = () => {
-    alert(`Agregaste ${product.name} al carrito`);
-  };
-
-  const buttonStyle = {
-    marginTop: "10px",
-    padding: "8px 15px",
-    backgroundColor: "#000",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
+    addToCart(product);
+    alert(`Agregaste ${product.name} al carrito ✅`);
   };
 
   return (
@@ -51,13 +45,36 @@ function ProductDetail() {
         />
         <div style={{ maxWidth: "500px", textAlign: "left" }}>
           <h1>{product.name}</h1>
-          <p style={{ fontSize: "18px", marginBottom: "20px", lineHeight: 1.5 }}>
+          <p
+            style={{
+              fontSize: "18px",
+              marginBottom: "20px",
+              lineHeight: 1.5,
+            }}
+          >
             {product.description}
           </p>
-          <p style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "20px" }}>
+          <p
+            style={{
+              fontSize: "20px",
+              fontWeight: "bold",
+              marginBottom: "20px",
+            }}
+          >
             Precio: ${product.price}
           </p>
-          <Button onClick={handleAddToCart} style={buttonStyle}>
+          <Button
+            onClick={handleAddToCart}
+            style={{
+              marginTop: "10px",
+              padding: "8px 15px",
+              backgroundColor: "#000",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
             Agregar al carrito
           </Button>
         </div>
@@ -68,4 +85,3 @@ function ProductDetail() {
 }
 
 export default ProductDetail;
-
