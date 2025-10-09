@@ -3,15 +3,17 @@
 /* Contenedor principal del formulario */
 .form-container {
     
-    max-width: 400px;
-    width: 90%;
-   
+    /* 🔑 CAMBIO: Aumentar el ancho máximo para hacerlo más grande */
+    max-width: 450px;
+    width: 95%;
+    
     margin: 0;
-    padding: 40px;
-   
+    /* 🔑 CAMBIO: Aumentar el padding interno */
+    padding: 50px;
+    
     background: #ffffff;
     border-radius: 12px;
-   
+    
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
@@ -28,8 +30,10 @@
 
 /* Título del formulario */
 .form-container h1 {
-    font-size: 2.4rem;
-    margin-bottom: 10px;
+    /* 🔑 CAMBIO: Aumentar el tamaño del título */
+    font-size: 2.8rem;
+    /* 🔑 CAMBIO: Aumentar la separación con los inputs */
+    margin-bottom: 25px;
     color: #000;
     font-weight: bold;
 }
@@ -38,10 +42,13 @@
 .form-input {
     width: 100%;
     
-    padding: 12px; 
-    font-size: 16px;
+    /* 🔑 CAMBIO: Aumentar padding/altura del campo */
+    padding: 14px; 
+    /* 🔑 CAMBIO: Aumentar tamaño de la fuente */
+    font-size: 17px;
     border: 1px solid #ccc;
-    border-radius: 12px;
+    /* 🔑 CAMBIO: Hacer el borde más redondeado */
+    border-radius: 14px;
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -54,8 +61,10 @@
 
 /* Botones */
 .form-button {
-    padding: 16px;
-    font-size: 16px;
+    /* 🔑 CAMBIO: Aumentar padding/altura del botón */
+    padding: 18px;
+    /* 🔑 CAMBIO: Aumentar tamaño de la fuente */
+    font-size: 19px;
     font-weight: bold;
     background-color: #000;
     color: white;
@@ -75,7 +84,7 @@
 /* Pie del formulario */
 .form-footer {
     margin-top: 20px;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 /* Link para registro/inicio de sesión */
@@ -90,17 +99,13 @@
     text-decoration: none;
 }
 
-/* Centrar el main */
-main {
-    
-    padding: 0; 
-    
-    
+/* 🔑 CLAVE: Clase de centrado para el main (renombrada a .main-centered) */
+.main-centered {
+    padding: 70px 50px;
     flex-grow: 1; /* Ocupa el espacio restante y empuja el footer */
     display: flex;
     justify-content: center; /* Centrado Horizontal */
-    align-items: center;    /* Centrado Vertical */
-    
+    align-items: center; /* Centrado Vertical */
     background-color: transparent;
 }
 
