@@ -12,7 +12,7 @@ function Home() {
     width: "100vw",
     maxWidth: "100%",
     height: "500px",
-    backgroundImage: 'url("/assets/banner.png")',
+    backgroundImage: 'url("/assets/banner1.png")',
     backgroundSize: "cover",
     backgroundPosition: "center",
     display: "flex",
@@ -63,7 +63,7 @@ function Home() {
   };
 
   const handleGoToFeatured = () => {
-    navigate("/catalog"); // lleva al catalogo de destacados
+    navigate("/catalog"); 
   };
 
   return (
