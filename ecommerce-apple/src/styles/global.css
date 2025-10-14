@@ -1,7 +1,9 @@
-/* GLOBAL.CSS - SOLUCIÓN FINAL */
+/* GLOBAL.CSS - FINAL Y CORREGIDO */
 
 body {
     margin: 0;
+    padding: 0; /* Aseguramos que no haya padding residual */
+    
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f5f5f7; 
     color: #333;
@@ -11,7 +13,15 @@ body {
     min-height: 100vh;
 }
 
-/* Estilos de navegación (omitidos por brevedad, pero correctos) */
+/* 🔑 CLAVE: El contenedor raíz debe participar en el Flexbox vertical para anclar el footer */
+#root { 
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos de navegación (mantienen funcionalidad) */
 nav {
     display: flex;
     justify-content: space-between;
@@ -34,13 +44,13 @@ nav a {
 /* Base del main */
 main {
     padding: 0; 
-    flex-grow: 1; /* Empuja el footer */
+    flex-grow: 1; /* Ocupa el espacio restante y empuja el footer */
     background-color: transparent;
 }
 
 /* ESTILOS PARA CONTENIDO DE PÁGINAS (Catálogo, Home) */
 main.catalog-content { 
-    /* Nos aseguramos de que no aplique Flexbox */
+    /* Nos aseguramos de que no aplique Flexbox forzado por el padre */
     display: block;
     
     /* Espacio lateral y superior/inferior */
@@ -52,35 +62,37 @@ main.catalog-content {
 }
 
 .catalog-content h1 {
-    text-align: center; 
+    /* Mantenemos el left align para títulos de contenido, NO centrado */
+    text-align: left; 
     margin-bottom: 40px; 
 }
 
-/* Añadir este CSS a tu archivo de estilos de catálogo/global */
+/* -------------------------------------------------
+   ESTILOS DE PRODUCT CARD (Mejor mover a catalog.css)
+   ------------------------------------------------- 
+*/
 
 .product-card {
-    /* Mantenemos el Flexbox vertical */
+    /* Mantenemos el Flexbox vertical para la tarjeta */
     display: flex;
     flex-direction: column;
     
-    /* Le damos una altura mínima para que la cuadrícula se vea uniforme */
-    min-height: 380px; /* Ajusta este valor (mayor que 350px) para darle espacio */
+    /* Mantenemos una altura mínima uniforme */
+    min-height: 380px; 
     
-    /* ... otros estilos de borde y padding si no están en línea ... */
+    /* Añadir aquí estilos básicos de borde si no los tienes en línea */
 }
 
-/* 🔑 CLAVE: La regla que empuja el botón */
 .product-details {
-    /* Esto hace que ocupe todo el espacio extra y empuje el botón hacia abajo */
+    /* 🔑 CLAVE: La regla que empuja el botón (se mantiene) */
     flex-grow: 1; 
     
-    /* Opcional: Centrar el texto verticalmente dentro de este bloque de detalles */
+    /* Centrado vertical para los detalles */
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centra el texto si la altura es variable */
+    justify-content: center;
 }
 
-/* Ajuste al botón */
 .product-card button {
     /* Aseguramos que el botón ocupe todo el ancho de la tarjeta */
     width: 100%; 
