@@ -1,12 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "/src/styles/Navbar.css";
+import { ThemeContext } from "../../context/ThemeContext"; // ✅ import del contexto
 
 function Navbar({ products }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+
+  // ✅ Traemos el tema actual y la función para cambiarlo
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   // Estado de sesión
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -91,6 +95,11 @@ function Navbar({ products }) {
             <button onClick={() => navigate("/cart")}>🛒</button>
           </>
         )}
+
+        {/* 🌙 Botón de cambio de tema */}
+        <button className="theme-toggle-btn" onClick={toggleTheme}>
+          {theme === "light" ? "🌙" : "☀️"}
+        </button>
       </div>
     </nav>
   );

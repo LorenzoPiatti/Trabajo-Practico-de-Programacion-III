@@ -1,99 +1,238 @@
-/* GLOBAL.CSS - FINAL Y CORREGIDO */
+/* ----------------- VARIABLES DE COLOR ----------------- */
+:root {
+    --bg-color: #f5f5f7;
+    --text-color: #333;
+    --nav-bg: black;
+    --nav-text: white;
+    --link-color: #0071e3;
+    --link-hover: #005bb5;
+}
 
+[data-theme='dark'] {
+    --bg-color: #1e1e1e;
+    --text-color: #f5f5f7;
+    --nav-bg: #333;
+    --nav-text: #f5f5f7;
+    --link-color: #66aaff;
+    --link-hover: #3399ff;
+}
+
+/* ----------------- ESTILOS GLOBALES ----------------- */
 body {
     margin: 0;
-    padding: 0; /* Aseguramos que no haya padding residual */
-    
+    padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #f5f5f7; 
-    color: #333;
-    
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-/* 🔑 CLAVE: El contenedor raíz debe participar en el Flexbox vertical para anclar el footer */
-#root { 
+#root {
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-/* Estilos de navegación (mantienen funcionalidad) */
+/* ----------------- NAVBAR ----------------- */
 nav {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 1rem;
-    background: black;
-    color: white;
+    background-color: var(--nav-bg);
+    color: var(--nav-text);
 }
 
 nav ul {
     list-style: none;
     display: flex;
     gap: 1rem;
+    padding: 0;
+    margin: 0;
 }
 
 nav a {
-    color: white;
+    color: var(--nav-text);
     text-decoration: none;
 }
 
-/* Base del main */
+nav a:hover {
+    text-decoration: underline;
+}
+
+.navbar-actions button {
+    margin-left: 0.5rem;
+}
+
+/* ----------------- MAIN ----------------- */
 main {
-    padding: 0; 
-    flex-grow: 1; /* Ocupa el espacio restante y empuja el footer */
+    padding: 0;
+    flex-grow: 1;
     background-color: transparent;
 }
 
-/* ESTILOS PARA CONTENIDO DE PÁGINAS (Catálogo, Home) */
-main.catalog-content { 
-    /* Nos aseguramos de que no aplique Flexbox forzado por el padre */
-    display: block;
-    
-    /* Espacio lateral y superior/inferior */
-    padding: 60px 40px; 
-    
-    /* Centra el bloque de contenido y le da un límite */
-    max-width: 1200px; 
-    margin: 0 auto; 
-}
-
-.catalog-content h1 {
-    /* Mantenemos el left align para títulos de contenido, NO centrado */
-    text-align: left; 
-    margin-bottom: 40px; 
-}
-
-/* -------------------------------------------------
-   ESTILOS DE PRODUCT CARD (Mejor mover a catalog.css)
-   ------------------------------------------------- 
-*/
-
-.product-card {
-    /* Mantenemos el Flexbox vertical para la tarjeta */
+/* ----------------- FORMULARIOS ----------------- */
+.form-container {
+    max-width: 500px;
+    width: 100%;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    
-    /* Mantenemos una altura mínima uniforme */
-    min-height: 380px; 
-    
-    /* Añadir aquí estilos básicos de borde si no los tienes en línea */
+    gap: 20px;
+    text-align: center;
+}
+
+.form-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+.form-input:focus {
+    border-color: var(--link-color);
+}
+
+.form-button {
+    padding: 14px;
+    font-size: 16px;
+    background-color: var(--nav-bg);
+    color: var(--nav-text);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.form-button:hover {
+    background-color: var(--link-color);
+    transform: scale(1.02);
+}
+
+.form-footer {
+    color: var(--text-color);
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.form-link {
+    color: var(--link-color);
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.form-link:hover {
+    color: var(--link-hover);
+}
+
+/* ----------------- PRODUCTOS ----------------- */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 380px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
 .product-details {
-    /* 🔑 CLAVE: La regla que empuja el botón (se mantiene) */
-    flex-grow: 1; 
-    
-    /* Centrado vertical para los detalles */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .product-card button {
-    /* Aseguramos que el botón ocupe todo el ancho de la tarjeta */
-    width: 100%; 
+    width: 100%;
+}
+
+/* ----------------- LINKS GENERALES ----------------- */
+a {
+    color: var(--link-color);
+}
+
+a:hover {
+    color: var(--link-hover);
+}
+
+/* ----------------- CATALOG CONTENT ----------------- */
+main.catalog-content {
+    display: block;
+    padding: 60px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.catalog-content h1 {
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+
+/* ----------------- TOGGLE DE TEMA ----------------- */
+.theme-toggle-container {
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 26px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--link-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
 }
