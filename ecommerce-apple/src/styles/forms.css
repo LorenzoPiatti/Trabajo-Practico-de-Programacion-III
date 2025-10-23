@@ -1,26 +1,21 @@
-/* Estilos para formularios */
-
-/* Contenedor principal del formulario */
 .form-container {
-    
-    /* 🔑 CAMBIO: Aumentar el ancho máximo para hacerlo más grande */
+
     max-width: 450px;
     width: 95%;
-    
+
     margin: 0;
-    /* 🔑 CAMBIO: Aumentar el padding interno */
     padding: 50px;
-    
+
     background: #ffffff;
     border-radius: 12px;
-    
+
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     display: flex;
     flex-direction: column;
-    
-    gap: 20px; 
+
+    gap: 20px;
     transition: all 0.3s ease;
 }
 
@@ -30,9 +25,8 @@
 
 /* Título del formulario */
 .form-container h1 {
-    /* 🔑 CAMBIO: Aumentar el tamaño del título */
+
     font-size: 2.8rem;
-    /* 🔑 CAMBIO: Aumentar la separación con los inputs */
     margin-bottom: 25px;
     color: #000;
     font-weight: bold;
@@ -41,13 +35,9 @@
 /* Campos del formulario */
 .form-input {
     width: 100%;
-    
-    /* 🔑 CAMBIO: Aumentar padding/altura del campo */
-    padding: 14px; 
-    /* 🔑 CAMBIO: Aumentar tamaño de la fuente */
+    padding: 14px;
     font-size: 17px;
     border: 1px solid #ccc;
-    /* 🔑 CAMBIO: Hacer el borde más redondeado */
     border-radius: 14px;
     outline: none;
     box-sizing: border-box;
@@ -61,9 +51,7 @@
 
 /* Botones */
 .form-button {
-    /* 🔑 CAMBIO: Aumentar padding/altura del botón */
     padding: 18px;
-    /* 🔑 CAMBIO: Aumentar tamaño de la fuente */
     font-size: 19px;
     font-weight: bold;
     background-color: #000;
@@ -87,7 +75,6 @@
     font-size: 18px;
 }
 
-/* Link para registro/inicio de sesión */
 .form-link {
     color: #0071e3;
     cursor: pointer;
@@ -99,41 +86,39 @@
     text-decoration: none;
 }
 
-/* 🔑 CLAVE: Clase de centrado para el main (renombrada a .main-centered) */
 .main-centered {
     padding: 70px 50px;
-    flex-grow: 1; /* Ocupa el espacio restante y empuja el footer */
+    flex-grow: 1;
     display: flex;
-    justify-content: center; /* Centrado Horizontal */
-    align-items: center; /* Centrado Vertical */
+    justify-content: center;
+    align-items: center;
     background-color: transparent;
 }
 
-/* Etiquetas de campo */
+
 .form-field label {
     display: block;
     text-align: left;
-    
-    margin-bottom: 10px; 
+
+    margin-bottom: 10px;
     font-weight: bold;
     color: #333;
     font-size: 14px;
 }
 
-/* Separar campos */
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 20px; 
+    gap: 20px;
 }
 
 .error-text {
-  color: red;
-  font-size: 0.9rem;
-  margin-top: 4px;
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 4px;
 }
 
 .input-error {
-  border: 1px solid red !important;
-  background-color: #ffecec;
+    border: 1px solid red !important;
+    background-color: #ffecec;
 }

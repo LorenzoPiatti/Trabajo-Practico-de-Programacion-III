@@ -1,21 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import "/src/styles/Navbar.css";
-import { ThemeContext } from "../../context/ThemeContext"; // ✅ import del contexto
+import { ThemeContext } from "../../context/ThemeContext";
+import { AuthContext } from "../../context/AuthContext";
 
-function Navbar({ products }) {
+function Navbar({ products = [] }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ Traemos el tema actual y la función para cambiarlo
+  // 🌙 Tema
   const { theme, toggleTheme } = useContext(ThemeContext);
 
-  // Estado de sesión
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  // 🔐 Autenticación
+  const { user, logout, isLoggedIn } = useContext(AuthContext);
 
+  // 🔍 Buscar productos
   const handleChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -35,12 +36,6 @@ function Navbar({ products }) {
     navigate(`/product/${product.id}`);
     setSearchTerm("");
     setShowDropdown(false);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("currentUser");
-    navigate("/login");
   };
 
   return (
@@ -82,10 +77,10 @@ function Navbar({ products }) {
 
       {/* Acciones de usuario */}
       <div className="navbar-actions">
-        {isLoggedIn && currentUser ? (
+        {isLoggedIn && user ? (
           <>
-            <span className="navbar-user">👤 {currentUser.email}</span>
-            <button onClick={handleLogout}>Logout</button>
+            <span className="navbar-user">👤 {user.email}</span>
+            <button onClick={logout}>Logout</button>
             <button onClick={() => navigate("/cart")}>🛒</button>
           </>
         ) : (
@@ -96,7 +91,7 @@ function Navbar({ products }) {
           </>
         )}
 
-        {/* 🌙 Botón de cambio de tema */}
+        {/* 🌙 Tema */}
         <button className="theme-toggle-btn" onClick={toggleTheme}>
           {theme === "light" ? "🌙" : "☀️"}
         </button>
