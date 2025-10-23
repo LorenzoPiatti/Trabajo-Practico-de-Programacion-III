@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import "../styles/forms.css";
+import { AuthContext } from "../context/AuthContext";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const validateField = (name, value) => {
     let error = "";
@@ -22,59 +24,47 @@ function Login() {
 
     if (name === "password") {
       if (!value.trim()) error = "La contraseña es obligatoria.";
-      else if (value.length < 6)
-        error = "Debe tener al menos 6 caracteres.";
+      else if (value.length < 6) error = "Debe tener al menos 6 caracteres.";
     }
 
-    setErrors((prev) => ({ ...prev, [name]: error }));
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    validateField(name, value);
-  };
-
-  const handleBlur = (e) => {
-    const { name, value } = e.target;
-    validateField(name, value);
+    return error;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar todos los campos
-    Object.keys(formData).forEach((key) =>
-      validateField(key, formData[key])
-    );
+    const newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      const error = validateField(key, formData[key]);
+      if (error) newErrors[key] = error;
+    });
+    setErrors(newErrors);
 
-    if (Object.values(errors).some((error) => error)) return;
+    if (Object.keys(newErrors).length > 0) return;
 
     try {
       const res = await fetch("http://localhost:4000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
 
       if (!data.success) {
-        setErrors((prev) => ({ ...prev, general: data.error }));
+        setErrors({ general: data.error });
       } else {
-        // Guardar token y usuario en localStorage
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("currentUser", JSON.stringify({ email: formData.email }));
-
-        navigate("/"); // redirigir al home
+        login({ token: data.token, user: { email: formData.email } });
+        navigate("/");
       }
     } catch (err) {
-      setErrors((prev) => ({
-        ...prev,
-        general: "Error de conexión con el servidor"
-      }));
+      setErrors({ general: "Error de conexión con el servidor" });
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -96,7 +86,6 @@ function Login() {
                   placeholder="Correo electrónico"
                   value={formData.email}
                   onChange={handleChange}
-                  onBlur={handleBlur}
                   className={`form-input ${errors.email ? "input-error" : ""}`}
                 />
                 {errors.email && <p className="error-text">{errors.email}</p>}
@@ -110,10 +99,11 @@ function Login() {
                   placeholder="Contraseña"
                   value={formData.password}
                   onChange={handleChange}
-                  onBlur={handleBlur}
                   className={`form-input ${errors.password ? "input-error" : ""}`}
                 />
-                {errors.password && <p className="error-text">{errors.password}</p>}
+                {errors.password && (
+                  <p className="error-text">{errors.password}</p>
+                )}
               </div>
             </div>
 
@@ -136,3 +126,4 @@ function Login() {
 }
 
 export default Login;
+
