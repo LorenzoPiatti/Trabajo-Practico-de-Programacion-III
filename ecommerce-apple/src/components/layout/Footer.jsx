@@ -7,7 +7,6 @@ function Footer() {
       <div className="footer-container">
         <p>&copy; {new Date().getFullYear()} Apple Store. Todos los derechos reservados.</p>
         <ul className="footer-links">
-          <li><a href="/about">Sobre nosotros</a></li>
           <li><a href="/contact">Contacto</a></li>
         </ul>
       </div>
