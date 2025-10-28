@@ -15,18 +15,15 @@ function Login() {
 
   const validateField = (name, value) => {
     let error = "";
-
     if (name === "email") {
       if (!value.trim()) error = "El email es obligatorio.";
       else if (!/\S+@\S+\.\S+/.test(value))
         error = "El formato del email no es válido.";
     }
-
     if (name === "password") {
       if (!value.trim()) error = "La contraseña es obligatoria.";
       else if (value.length < 6) error = "Debe tener al menos 6 caracteres.";
     }
-
     return error;
   };
 
@@ -39,7 +36,6 @@ function Login() {
       if (error) newErrors[key] = error;
     });
     setErrors(newErrors);
-
     if (Object.keys(newErrors).length > 0) return;
 
     try {
@@ -54,8 +50,11 @@ function Login() {
       if (!data.success) {
         setErrors({ general: data.error });
       } else {
-        login({ token: data.token, user: { email: formData.email } });
+        // 🔥 Guardamos el usuario con su rol
+        const userData = data.user || { email: formData.email, role: "user" };
+        login({ token: data.token, user: userData });
         navigate("/");
+
       }
     } catch (err) {
       setErrors({ general: "Error de conexión con el servidor" });
@@ -73,10 +72,8 @@ function Login() {
       <main className="main-centered">
         <div className="form-container">
           <h1>Iniciar Sesión</h1>
-
           <form onSubmit={handleSubmit}>
             {errors.general && <p className="error-text">{errors.general}</p>}
-
             <div className="form-group">
               <div className="form-field">
                 <label>Email</label>
@@ -101,12 +98,9 @@ function Login() {
                   onChange={handleChange}
                   className={`form-input ${errors.password ? "input-error" : ""}`}
                 />
-                {errors.password && (
-                  <p className="error-text">{errors.password}</p>
-                )}
+                {errors.password && <p className="error-text">{errors.password}</p>}
               </div>
             </div>
-
             <Button className="form-button">Ingresar</Button>
           </form>
 
@@ -126,4 +120,5 @@ function Login() {
 }
 
 export default Login;
+
 

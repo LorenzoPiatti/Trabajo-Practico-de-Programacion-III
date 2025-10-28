@@ -18,7 +18,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/pedidos", pedidoRoutes);
+app.use("/api/orders", pedidoRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);

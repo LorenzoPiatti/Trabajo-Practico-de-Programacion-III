@@ -9,7 +9,6 @@ export function AuthProvider({ children }) {
         return u ? JSON.parse(u) : null;
     });
 
-    // Guarda en localStorage cuando cambian
     useEffect(() => {
         if (token) localStorage.setItem("token", token);
         else localStorage.removeItem("token");
@@ -21,8 +20,9 @@ export function AuthProvider({ children }) {
     }, [user]);
 
     const login = ({ token: newToken, user: userObj }) => {
+        if (!userObj.role) userObj.role = "user";
         setToken(newToken);
-        setUser(userObj);
+        setUser({ ...userObj, token: newToken });
     };
 
     const logout = () => {

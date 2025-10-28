@@ -1,78 +1,141 @@
-.form-container {
-
-    max-width: 450px;
-    width: 95%;
-
-    margin: 0;
-    padding: 50px;
-
-    background: #ffffff;
-    border-radius: 12px;
-
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+.main-centered {
     display: flex;
     flex-direction: column;
-
-    gap: 20px;
-    transition: all 0.3s ease;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background-color: var(--bg-color, #f5f5f5);
 }
 
-.form-container:hover {
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+h1,
+h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--text-color, #333);
 }
 
-/* Título del formulario */
-.form-container h1 {
-
-    font-size: 2.8rem;
-    margin-bottom: 25px;
-    color: #000;
-    font-weight: bold;
+/* Contenedor general del formulario */
+.form-container {
+    width: 100%;
+    max-width: 500px;
+    background: var(--card-bg, #fff);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
 }
 
-/* Campos del formulario */
+/* Formulario en columna */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.form-field label {
+    margin-bottom: 0.7rem;
+    font-weight: 600;
+    color: var(--text-color, #333);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+
 .form-input {
     width: 100%;
-    padding: 14px;
-    font-size: 17px;
+    padding: 0.6rem;
+    border-radius: 6px;
     border: 1px solid #ccc;
-    border-radius: 14px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+input:focus {
+    border-color: #007bff;
     outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-input:focus {
-    border-color: #0071e3;
-    box-shadow: 0 0 8px rgba(0, 113, 227, 0.3);
+input[type="checkbox"] {
+    margin-top: 0.5rem;
 }
 
-/* Botones */
 .form-button {
-    padding: 18px;
-    font-size: 19px;
-    font-weight: bold;
+    align-self: center;
+    width: 60%;
+    padding: 0.7rem;
     background-color: #000;
     color: white;
+    font-weight: bold;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.1s ease;
-    width: 100%;
     margin-top: 20px;
 }
 
 .form-button:hover {
     background-color: #333;
-    transform: translateY(-2px);
 }
 
-/* Pie del formulario */
+
+/* Cards container (productos) */
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Card individual */
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.card img {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.error-text {
+    color: red;
+    font-size: 0.9rem;
+}
+
+.input-error {
+    border-color: red;
+}
+
 .form-footer {
-    margin-top: 20px;
-    font-size: 18px;
+    text-align: center;
+    margin-top: 1rem;
 }
 
 .form-link {
@@ -86,39 +149,20 @@
     text-decoration: none;
 }
 
-.main-centered {
-    padding: 70px 50px;
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
+.pedido-card {
+    background: var(--bg-color);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-
-.form-field label {
-    display: block;
-    text-align: left;
-
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #333;
-    font-size: 14px;
+.pedido-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.error-text {
-    color: red;
-    font-size: 0.9rem;
-    margin-top: 4px;
-}
-
-.input-error {
-    border: 1px solid red !important;
-    background-color: #ffecec;
+.pedido-card li {
+    padding: 3px 0;
 }
