@@ -175,9 +175,19 @@ function SuperAdmin() {
                 headers: { Authorization: `Bearer ${user.token}` },
             });
 
-            if (!res.ok) throw new Error("Error al cargar pedidos");
+            if (!res.ok) {
+                const fallback = await fetch("http://localhost:4000/api/pedidos", {
+                    headers: { Authorization: `Bearer ${user.token}` },
+                });
+                if (!fallback.ok) throw new Error("Error al cargar pedidos");
+                const dataFallback = await fallback.json();
+                console.log("Pedidos (fallback) recibidos del API:", dataFallback.pedidos);
+                setPedidos(dataFallback.pedidos || []);
+                return;
+            }
 
             const data = await res.json();
+            console.log("Pedidos recibidos del API:", data.pedidos);
             setPedidos(data.pedidos || []);
         } catch (err) {
             console.error("fetchPedidos error:", err);
@@ -186,7 +196,10 @@ function SuperAdmin() {
 
     const handleUpdatePedido = async (id, updatedStatus) => {
         try {
-            await fetch(`http://localhost:4000/api/orders/${id}`, {
+            const endpoint = "http://localhost:4000/api/orders";
+            const url = endpoint.includes("/orders") ? `${endpoint}/${id}` : `http://localhost:4000/api/pedidos/${id}`;
+
+            await fetch(url, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -203,7 +216,10 @@ function SuperAdmin() {
     const handleDeletePedido = async (id) => {
         if (!window.confirm("¿Eliminar este pedido?")) return;
         try {
-            await fetch(`http://localhost:4000/api/orders/${id}`, {
+            const endpoint = "http://localhost:4000/api/orders";
+            const url = endpoint.includes("/orders") ? `${endpoint}/${id}` : `http://localhost:4000/api/pedidos/${id}`;
+
+            await fetch(url, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${user.token}` },
             });
@@ -214,11 +230,6 @@ function SuperAdmin() {
     };
 
     if (!user) return <p>Cargando...</p>;
-
-    const buttonStyle = (disabled, color) => ({
-        backgroundColor: disabled ? "#ccc" : color,
-        color: disabled ? "#666" : "#fff",
-    });
 
     return (
         <>
@@ -315,7 +326,62 @@ function SuperAdmin() {
                     </form>
                 </div>
 
-                {/* --- Lista de pedidos --- */}
+
+                {/* --- Lista de productos --- */}
+                <div className="form-container">
+                    <h2>Productos Existentes</h2>
+                    {products.length === 0 && <p>No hay productos</p>}
+                    {products.map((p) => (
+                        <div key={p.id} className="form-field" style={{ flexDirection: "row", alignItems: "center" }}>
+                            <span style={{ flex: 1 }}>{p.name} - ${p.price}</span>
+                            <Button onClick={() => handleEditProduct(p)}>Editar</Button>
+                            <Button onClick={() => handleDeleteProduct(p.id)}>Eliminar</Button>
+                        </div>
+                    ))}
+                </div>
+
+                {/* --- Formulario usuarios --- */}
+                <div className="form-container">
+                    <h2>Actualizar Usuario</h2>
+                    <form onSubmit={handleUserSubmit}>
+                        <div className="form-field">
+                            <label>Nombre</label>
+                            <Input name="name" value={userForm.name} onChange={handleUserChange} />
+                        </div>
+                        <div className="form-field">
+                            <label>Email</label>
+                            <Input name="email" value={userForm.email} onChange={handleUserChange} />
+                        </div>
+                        <div className="form-field">
+                            <label>Contraseña</label>
+                            <Input name="password" type="password" value={userForm.password} onChange={handleUserChange} />
+                        </div>
+                        <div className="form-field">
+                            <label>Rol</label>
+                            <select name="role" value={userForm.role} onChange={handleUserChange}>
+                                <option value="user">user</option>
+                                <option value="admin">admin</option>
+                                <option value="superadmin">superadmin</option>
+                            </select>
+                        </div>
+                        <Button type="submit" disabled={!userForm.id}>Guardar Cambios</Button>
+                    </form>
+                </div>
+
+                {/* --- Lista de usuarios --- */}
+                <div className="form-container">
+                    <h2>Usuarios Existentes</h2>
+                    {users.length === 0 && <p>No hay usuarios</p>}
+                    {users.map((u) => (
+                        <div key={u.id} className="form-field" style={{ flexDirection: "row", alignItems: "center" }}>
+                            <span style={{ flex: 1 }}>{u.name || "(sin nombre)"} - {u.email} - {u.role}</span>
+                            <Button onClick={() => handleEditUser(u)}>Editar</Button>
+                            <Button onClick={() => handleDeleteUser(u.id)}>Eliminar</Button>
+                        </div>
+                    ))}
+                </div>
+
+                {/* --- Pedidos --- */}
                 <div className="form-container">
                     <h2>Pedidos</h2>
                     {pedidos.length === 0 && <p>No hay pedidos</p>}
@@ -332,8 +398,6 @@ function SuperAdmin() {
                         }
 
                         const isEntregado = p.estado === "entregado";
-                        const isCancelado = p.estado === "cancelado";
-                        const disableAllExceptDelete = isEntregado || isCancelado;
 
                         return (
                             <div key={p.id} className="pedido-card" style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -345,39 +409,68 @@ function SuperAdmin() {
                                 <div style={{ marginTop: "10px" }}>
                                     <strong>Productos:</strong>
                                     <ul style={{ marginTop: "5px" }}>
-                                        {productos.map((prod, i) => (
-                                            <li key={i}>{prod.name ?? "(sin nombre)"} (x{prod.quantity ?? 1}) - ${prod.price ?? "0.00"}</li>
-                                        ))}
+                                        {productos.map((prod, i) => {
+                                            const nombre =
+                                                prod.name ??
+                                                prod.nombre ??
+                                                prod.title ??
+                                                prod.productName ??
+                                                prod.product?.name ??
+                                                prod.productId ??
+                                                prod.id ??
+                                                "(sin nombre)";
+
+                                            const cantidad =
+                                                prod.quantity ??
+                                                prod.cantidad ??
+                                                prod.qty ??
+                                                prod.product?.quantity ??
+                                                1;
+
+                                            const precio =
+                                                prod.price ??
+                                                prod.precio ??
+                                                prod.product?.price ??
+                                                prod.productPrice ??
+                                                "0.00";
+
+                                            return (
+                                                <li key={i}>
+                                                    {nombre} (x{cantidad}) - ${precio}
+                                                </li>
+                                            );
+                                        })}
                                     </ul>
                                 </div>
 
                                 <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "pendiente")}
-                                        disabled={disableAllExceptDelete || p.estado === "pendiente"}
-                                        style={buttonStyle(disableAllExceptDelete || p.estado === "pendiente", "#007bff")}
+                                        disabled={p.estado === "entregado" || p.estado === "cancelado" || p.estado === "pendiente"}
                                     >Pendiente</Button>
 
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "enviando")}
-                                        disabled={disableAllExceptDelete || p.estado === "enviando"}
-                                        style={buttonStyle(disableAllExceptDelete || p.estado === "enviando", "#28a745")}
+                                        disabled={p.estado === "entregado" || p.estado === "cancelado" || p.estado === "enviando"}
                                     >Enviando</Button>
 
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "entregado")}
-                                        disabled={disableAllExceptDelete || p.estado === "entregado"}
-                                        style={buttonStyle(disableAllExceptDelete || p.estado === "entregado", "#007bff")}
+                                        disabled={p.estado === "entregado" || p.estado === "cancelado"}
                                     >Entregado</Button>
 
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "cancelado")}
-                                        disabled={disableAllExceptDelete}
-                                        style={buttonStyle(disableAllExceptDelete, "#ff4d4d")}
+                                        disabled={p.estado === "cancelado"}
+                                        style={{
+                                            backgroundColor: p.estado === "cancelado" ? "#ccc" : "#ff4d4d",
+                                            color: p.estado === "cancelado" ? "#666" : "#fff",
+                                        }}
                                     >Cancelar</Button>
 
                                     <Button onClick={() => handleDeletePedido(p.id)}>Eliminar</Button>
                                 </div>
+
                             </div>
                         );
                     })}
