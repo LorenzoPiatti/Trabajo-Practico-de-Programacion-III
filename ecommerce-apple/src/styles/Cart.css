@@ -56,3 +56,36 @@
   color: var(--text-color);
   text-align: right;
 }
+.order-item {
+  background-color: var(--bg-color);
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.order-item h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+}
+
+.order-item p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.order-products {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.order-products li {
+  margin-bottom: 5px;
+}
+
+.order-buttons {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}

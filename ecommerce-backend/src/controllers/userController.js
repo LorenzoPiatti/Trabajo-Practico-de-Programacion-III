@@ -1,6 +1,7 @@
 import { db } from "../config/db.js";
+import bcrypt from "bcryptjs";
 
-// Listar todos los usuarios
+// Listar usuarios
 export const listUsers = async (req, res) => {
     try {
         const [users] = await db.query("SELECT id, name, email, role FROM users");
@@ -10,21 +11,37 @@ export const listUsers = async (req, res) => {
     }
 };
 
-// Cambiar rol de un usuario
-export const updateUserRole = async (req, res) => {
+// Actualizar usuario
+export const updateUser = async (req, res) => {
     const { id } = req.params;
-    const { role } = req.body;
+    const { name, email, password, role } = req.body;
 
-    if (!["user", "admin", "superadmin"].includes(role)) {
+    if (role && !["user", "admin", "superadmin"].includes(role)) {
         return res.status(400).json({ success: false, error: "Rol inválido" });
     }
 
     try {
-        const [result] = await db.query("UPDATE users SET role=? WHERE id=?", [role, id]);
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ success: false, error: "Usuario no encontrado" });
+        let query = "UPDATE users SET name=?, email=?";
+        const params = [name, email];
+
+        if (password) {
+            const hashed = await bcrypt.hash(password, 10);
+            query += ", password=?";
+            params.push(hashed);
         }
-        res.json({ success: true, message: "Rol actualizado correctamente" });
+
+        if (role) {
+            query += ", role=?";
+            params.push(role);
+        }
+
+        query += " WHERE id=?";
+        params.push(id);
+
+        const [result] = await db.query(query, params);
+        if (result.affectedRows === 0) return res.status(404).json({ success: false, error: "Usuario no encontrado" });
+
+        res.json({ success: true, message: "Usuario actualizado correctamente" });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
@@ -35,9 +52,7 @@ export const deleteUser = async (req, res) => {
     const { id } = req.params;
     try {
         const [result] = await db.query("DELETE FROM users WHERE id=?", [id]);
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ success: false, error: "Usuario no encontrado" });
-        }
+        if (result.affectedRows === 0) return res.status(404).json({ success: false, error: "Usuario no encontrado" });
         res.json({ success: true, message: "Usuario eliminado correctamente" });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });

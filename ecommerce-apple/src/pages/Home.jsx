@@ -27,6 +27,7 @@ function Home() {
   const bannerTitleStyle = {
     fontSize: "2.5rem",
     fontWeight: "bold",
+    color: "#fff"
   };
 
   const bannerSubtitleStyle = {

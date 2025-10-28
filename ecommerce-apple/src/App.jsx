@@ -8,7 +8,9 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import RequireAuth from "./components/auth/RequireAuth";
-import AdminPage from "./pages/AdminPage"; // 🔹 placeholder si no la creaste todavía
+import Admin from "./pages/Admin";
+import SuperAdmin from "./pages/SuperAdmin";
+import Orders from "./pages/Orders";
 
 function App() {
   return (
@@ -23,11 +25,31 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+
         <Route
           path="/admin"
           element={
             <RequireAuth role="admin">
-              <AdminPage />
+              <Admin />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/superadmin"
+          element={
+            <RequireAuth role="superadmin">
+              <SuperAdmin />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/orders"
+          element={
+            <RequireAuth>
+              <Orders />
             </RequireAuth>
           }
         />
