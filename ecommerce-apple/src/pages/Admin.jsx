@@ -237,93 +237,115 @@ function Admin() {
                     </form>
                 </div>
 
-                {/* --- Lista Pedidos --- */}
+                {/* --- LISTA DE PRODUCTOS EXISTENTES --- */}
+                <div className="form-container">
+                    <h2>Productos Existentes</h2>
+                    {products.length === 0 && <p>No hay productos</p>}
+                    {products.map((p) => (
+                        <div key={p.id} className="form-field" style={{ flexDirection: "row", alignItems: "center" }}>
+                            <span style={{ flex: 1 }}>
+                                {p.name} - ${p.price}
+                            </span>
+                            <Button onClick={() => handleEditProduct(p)}>Editar</Button>
+                            <Button onClick={() => handleDeleteProduct(p.id)}>Eliminar</Button>
+                        </div>
+                    ))}
+                </div>
+
+                {/* --- LISTA DE PEDIDOS (no tocada) --- */}
+                {/* --- Pedidos --- */}
                 <div className="form-container">
                     <h2>Pedidos</h2>
                     {pedidos.length === 0 && <p>No hay pedidos</p>}
                     {pedidos.map((p) => {
                         let productos = [];
-                        try {
-                            productos = JSON.parse(p.productos);
-                        } catch {
-                            productos = [];
+                        if (typeof p.productos === "string") {
+                            try {
+                                productos = JSON.parse(p.productos);
+                            } catch {
+                                productos = [];
+                            }
+                        } else if (Array.isArray(p.productos)) {
+                            productos = p.productos;
                         }
 
                         const isEntregado = p.estado === "entregado";
                         const isCancelado = p.estado === "cancelado";
-                        const isDisabled = isEntregado || isCancelado;
-
-                        const buttonStyle = (disabled, bgColor) => ({
-                            backgroundColor: disabled ? "#ccc" : bgColor,
-                            color: disabled ? "#fff" : "#fff",
-                        });
 
                         return (
-                            <div
-                                key={p.id}
-                                className="form-field"
-                                style={{
-                                    flexDirection: "column",
-                                    alignItems: "flex-start",
-                                    border: "1px solid #ccc",
-                                    borderRadius: "10px",
-                                    padding: "10px",
-                                    marginBottom: "10px",
-                                    backgroundColor: "var(--bg-color)",
-                                }}
-                            >
+                            <div key={p.id} className="pedido-card" style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                                 <p><strong>ID:</strong> {p.id}</p>
-                                <p><strong>Estado:</strong> {p.estado}</p>
+                                <p><strong>Usuario ID:</strong> {p.user_id}</p>
                                 <p><strong>Total:</strong> ${p.total}</p>
+                                <p><strong>Estado:</strong> {p.estado}</p>
 
                                 <div style={{ marginTop: "10px" }}>
                                     <strong>Productos:</strong>
                                     <ul style={{ marginTop: "5px" }}>
-                                        {productos.map((prod, i) => (
-                                            <li key={i}>
-                                                {prod.name} (x{prod.quantity}) - ${prod.price}
-                                            </li>
-                                        ))}
+                                        {productos.map((prod, i) => {
+                                            const nombre =
+                                                prod.name ??
+                                                prod.nombre ??
+                                                prod.title ??
+                                                prod.productName ??
+                                                prod.product?.name ??
+                                                prod.productId ??
+                                                prod.id ??
+                                                "(sin nombre)";
+
+                                            const cantidad =
+                                                prod.quantity ??
+                                                prod.cantidad ??
+                                                prod.qty ??
+                                                prod.product?.quantity ??
+                                                1;
+
+                                            const precio =
+                                                prod.price ??
+                                                prod.precio ??
+                                                prod.product?.price ??
+                                                prod.productPrice ??
+                                                "0.00";
+
+                                            return (
+                                                <li key={i}>
+                                                    {nombre} (x{cantidad}) - ${precio}
+                                                </li>
+                                            );
+                                        })}
                                     </ul>
                                 </div>
 
-                                <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+                                <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "pendiente")}
-                                        disabled={isDisabled || p.estado === "pendiente"}
-                                        style={buttonStyle(isDisabled || p.estado === "pendiente", "#888")}
-                                    >
-                                        Pendiente
-                                    </Button>
+                                        disabled={isEntregado || isCancelado || p.estado === "pendiente"}
+                                    >Pendiente</Button>
 
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "enviando")}
-                                        disabled={isDisabled || p.estado === "enviando"}
-                                        style={buttonStyle(isDisabled || p.estado === "enviando", "#888")}
-                                    >
-                                        Enviando
-                                    </Button>
+                                        disabled={isEntregado || isCancelado || p.estado === "enviando"}
+                                    >Enviando</Button>
 
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "entregado")}
-                                        disabled={isDisabled || p.estado === "entregado"}
-                                        style={buttonStyle(isDisabled || p.estado === "entregado", "#888")}
-                                    >
-                                        Entregado
-                                    </Button>
+                                        disabled={isEntregado || isCancelado}
+                                    >Entregado</Button>
 
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "cancelado")}
                                         disabled={isCancelado || isEntregado}
-                                        style={buttonStyle(isCancelado || isEntregado, "#ff4d4d")}
-                                    >
-                                        Cancelar
-                                    </Button>
+                                        style={{
+                                            backgroundColor: isCancelado || isEntregado ? "#ccc" : "#ff4d4d",
+                                            color: isCancelado || isEntregado ? "#666" : "#fff",
+                                        }}
+                                    >Cancelar</Button>
                                 </div>
                             </div>
                         );
                     })}
                 </div>
+
             </main>
             <Footer />
         </>
