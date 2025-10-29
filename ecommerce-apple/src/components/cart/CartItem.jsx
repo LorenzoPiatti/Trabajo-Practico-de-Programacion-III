@@ -1,7 +1,7 @@
 import { useCart } from "../../context/CartContext";
 
 function CartItem({ item }) {
-  const { removeFromCart } = useCart(); // ✅ usamos contexto en lugar de zustand
+  const { removeFromCart } = useCart(); 
 
   return (
     <li>
