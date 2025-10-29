@@ -9,7 +9,7 @@ function Contact() {
 
       <main className="contact-main">
         <div className="contact-container">
-          <h1>Contactanos 📞</h1>
+          <h1>Contactános 📞</h1>
           <ul>
             <li><strong> 📧 Mail:</strong> applestore@gmail.com</li>
             <li><strong> 📞 Teléfono:</strong> +54 9 341 123 4567</li>
