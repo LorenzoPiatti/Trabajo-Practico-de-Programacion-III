@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import { useCartStore } from "../store/CartStore";
+import { useCart } from "../context/CartContext"; // ✅ usamos el nuevo contexto
 import CartItem from "../components/cart/CartItem";
 import CartSummary from "../components/cart/CartSummary";
 import { AuthContext } from "../context/AuthContext";
@@ -10,8 +10,7 @@ import Button from "../components/ui/Button";
 
 function Cart() {
   const { user } = useContext(AuthContext);
-  const cart = useCartStore((state) => state.cart);
-  const clearCart = useCartStore((state) => state.clearCart);
+  const { cart, clearCart } = useCart(); // ✅ usamos el contexto
   const [loading, setLoading] = useState(false);
 
   const handlePurchase = async () => {
@@ -28,7 +27,6 @@ function Cart() {
 
     setLoading(true);
     try {
-      // Enviamos el carrito como productos al backend
       const res = await fetch("http://localhost:4000/api/orders", {
         method: "POST",
         headers: {
@@ -42,7 +40,10 @@ function Cart() {
             cantidad: item.quantity || 1,
             price: item.price,
           })),
-          total: cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0),
+          total: cart.reduce(
+            (sum, item) => sum + item.price * (item.quantity || 1),
+            0
+          ),
         }),
       });
 
@@ -80,7 +81,14 @@ function Cart() {
               <CartSummary />
             </div>
 
-            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginTop: "20px" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+                justifyContent: "center",
+                marginTop: "20px",
+              }}
+            >
               <Button onClick={clearCart}>Vaciar carrito</Button>
               <Button onClick={handlePurchase} disabled={loading}>
                 {loading ? "Procesando..." : "Comprar"}
