@@ -50,6 +50,20 @@ function Admin() {
 
     const handleProductSubmit = async (e) => {
         e.preventDefault();
+        if (!productForm.name.trim()) {
+            alert("El nombre del producto no puede estar vacío");
+            return;
+        }
+
+        if (!productForm.price || Number(productForm.price) <= 0) {
+            alert("El precio debe ser mayor a 0");
+            return;
+        }
+
+        if (productForm.image && !/^https?:\/\/.+\..+/.test(productForm.image)) {
+            alert("Ingrese una URL válida para la imagen");
+            return;
+        }
         try {
             const method = productForm.id ? "PUT" : "POST";
             const url = productForm.id

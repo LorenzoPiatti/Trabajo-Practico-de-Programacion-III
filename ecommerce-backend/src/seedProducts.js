@@ -1,8 +1,7 @@
-// src/seedProducts.js
+
 
 import { db } from "./config/db.js";
 
-// Lista de productos (pueden usar las imágenes que están en frontend /assets)
 
 const products = [
     // iPhone

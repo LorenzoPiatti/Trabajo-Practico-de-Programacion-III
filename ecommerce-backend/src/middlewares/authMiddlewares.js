@@ -1,4 +1,8 @@
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET; 
 
 export const protect = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -8,16 +12,13 @@ export const protect = (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
-
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+        req.user = jwt.verify(token, JWT_SECRET);
         next();
     } catch (err) {
-        return res.status(401).json({ success: false, error: "Token inválido" });
+        res.status(401).json({ success: false, error: "Token inválido" });
     }
 };
-
 
 export const authorize = (...roles) => (req, res, next) => {
     if (!roles.includes(req.user.role)) {

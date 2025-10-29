@@ -1,9 +1,8 @@
-import { db } from "../config/db.js";
-
+import { Product } from "../models/index.js"; 
 export const getProducts = async (req, res) => {
     try {
-        const [rows] = await db.query("SELECT * FROM products");
-        res.json({ success: true, products: rows });
+        const products = await Product.findAll();
+        res.json({ success: true, products });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
@@ -12,11 +11,9 @@ export const getProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
     const { id } = req.params;
     try {
-        const [rows] = await db.query("SELECT * FROM products WHERE id = ?", [id]);
-        if (rows.length === 0) {
-            return res.status(404).json({ success: false, error: "Producto no encontrado" });
-        }
-        res.json({ success: true, product: rows[0] });
+        const product = await Product.findByPk(id);
+        if (!product) return res.status(404).json({ success: false, error: "Producto no encontrado" });
+        res.json({ success: true, product });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
@@ -25,11 +22,8 @@ export const getProductById = async (req, res) => {
 export const createProduct = async (req, res) => {
     const { name, description, price, category, image, featured } = req.body;
     try {
-        const [result] = await db.query(
-            "INSERT INTO products (name, description, price, category, image, featured) VALUES (?, ?, ?, ?, ?, ?)",
-            [name, description, price, category, image, featured || false]
-        );
-        res.status(201).json({ success: true, productId: result.insertId });
+        const product = await Product.create({ name, description, price, category, image, featured: featured || false });
+        res.status(201).json({ success: true, productId: product.id });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
@@ -39,10 +33,9 @@ export const updateProduct = async (req, res) => {
     const { id } = req.params;
     const { name, description, price, category, image, featured } = req.body;
     try {
-        await db.query(
-            "UPDATE products SET name=?, description=?, price=?, category=?, image=?, featured=? WHERE id=?",
-            [name, description, price, category, image, featured, id]
-        );
+        const product = await Product.findByPk(id);
+        if (!product) return res.status(404).json({ success: false, error: "Producto no encontrado" });
+        await product.update({ name, description, price, category, image, featured });
         res.json({ success: true, message: "Producto actualizado" });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
@@ -52,7 +45,9 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     const { id } = req.params;
     try {
-        await db.query("DELETE FROM products WHERE id=?", [id]);
+        const product = await Product.findByPk(id);
+        if (!product) return res.status(404).json({ success: false, error: "Producto no encontrado" });
+        await product.destroy();
         res.json({ success: true, message: "Producto eliminado" });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });

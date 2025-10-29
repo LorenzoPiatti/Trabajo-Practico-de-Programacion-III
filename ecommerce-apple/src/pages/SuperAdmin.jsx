@@ -60,6 +60,30 @@ function SuperAdmin() {
 
     const handleProductSubmit = async (e) => {
         e.preventDefault();
+        if (!productForm.name.trim()) {
+            alert("El nombre del producto es obligatorio");
+            return;
+        }
+
+        if (!productForm.price || Number(productForm.price) <= 0) {
+            alert("El precio debe ser un número mayor a 0");
+            return;
+        }
+
+        if (productForm.category && productForm.category.length > 50) {
+            alert("La categoría no puede tener más de 50 caracteres");
+            return;
+        }
+
+        if (productForm.description && productForm.description.length > 255) {
+            alert("La descripción no puede superar los 255 caracteres");
+            return;
+        }
+
+        if (productForm.image && !/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)$/i.test(productForm.image)) {
+            alert("Ingrese una URL válida de imagen (jpg, jpeg, png, gif, webp)");
+            return;
+        }
         try {
             const method = productForm.id ? "PUT" : "POST";
             const url = productForm.id
@@ -132,6 +156,28 @@ function SuperAdmin() {
     const handleUserSubmit = async (e) => {
         e.preventDefault();
         if (!userForm.id) return;
+
+        if (!userForm.name.trim()) {
+            alert("El nombre no puede estar vacío");
+            return;
+        }
+
+        if (!userForm.email.trim()) {
+            alert("El email no puede estar vacío");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(userForm.email)) {
+            alert("Ingrese un email válido");
+            return;
+        }
+
+        if (userForm.password && userForm.password.length < 6) {
+            alert("La contraseña debe tener al menos 6 caracteres");
+            return;
+        }
+
         try {
             await fetch(`http://localhost:4000/api/users/${userForm.id}`, {
                 method: "PUT",
