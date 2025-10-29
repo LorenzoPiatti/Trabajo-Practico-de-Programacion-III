@@ -1,5 +1,4 @@
-// helper para hacer fetch con token si existe
-//Automáticamente agrega token.
+
 
 export async function apiFetch(url, options = {}, token = null) {
     const headers = options.headers ? { ...options.headers } : {};

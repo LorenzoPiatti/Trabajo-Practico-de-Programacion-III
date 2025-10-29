@@ -50,7 +50,7 @@ function Login() {
       if (!data.success) {
         setErrors({ general: data.error });
       } else {
-        // 🔥 Guardamos el usuario con su rol
+        
         const userData = data.user || { email: formData.email, role: "user" };
         login({ token: data.token, user: userData });
         navigate("/");

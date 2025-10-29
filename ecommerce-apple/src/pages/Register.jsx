@@ -58,7 +58,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar todos los campos antes de enviar
+
     Object.keys(formData).forEach((key) => validateField(key, formData[key]));
     if (Object.values(errors).some((error) => error)) return;
 

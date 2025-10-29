@@ -37,7 +37,7 @@ function SuperAdmin() {
         }
     }, [user]);
 
-    // --- Productos ---
+    // --- Productos ---//
     const fetchProducts = async () => {
         try {
             const res = await fetch("http://localhost:4000/api/products", {
@@ -107,7 +107,7 @@ function SuperAdmin() {
         }
     };
 
-    // --- Usuarios ---
+    // --- Usuarios ---//
     const fetchUsers = async () => {
         try {
             const res = await fetch("http://localhost:4000/api/users", {

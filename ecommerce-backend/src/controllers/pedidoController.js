@@ -1,6 +1,5 @@
 import { db } from "../config/db.js";
 
-// Crear un pedido
 export const createPedido = async (req, res) => {
     const { productos, total } = req.body;
     const user_id = req.user.id;
@@ -19,7 +18,6 @@ export const createPedido = async (req, res) => {
     }
 };
 
-// Listar todos los pedidos (superadmin)
 export const listPedidos = async (req, res) => {
     try {
         const [rows] = await db.query("SELECT * FROM pedidos WHERE activo=TRUE");
@@ -29,7 +27,7 @@ export const listPedidos = async (req, res) => {
     }
 };
 
-// Listar pedidos del usuario
+
 export const listMisPedidos = async (req, res) => {
     const user_id = req.user.id;
 
@@ -41,7 +39,7 @@ export const listMisPedidos = async (req, res) => {
     }
 };
 
-// Actualizar estado del pedido (solo puede superadmin)
+
 export const updatePedido = async (req, res) => {
     const { id } = req.params;
     const { estado } = req.body;
@@ -59,7 +57,7 @@ export const updatePedido = async (req, res) => {
     }
 };
 
-// Cancelar pedido (usuario o admin)
+
 export const cancelarPedido = async (req, res) => {
     const { id } = req.params;
 
@@ -80,7 +78,7 @@ export const cancelarPedido = async (req, res) => {
 };
 
 
-// Eliminación de pedido (solo superadmin)
+
 export const deletePedido = async (req, res) => {
     const { id } = req.params;
 
