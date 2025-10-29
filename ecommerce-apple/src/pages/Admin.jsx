@@ -261,10 +261,10 @@ function Admin() {
                             productos = [];
                         }
 
-                        // Deshabilitar todos los botones si estado es "entregado" o "cancelado"
+
                         const isDisabled = p.estado === "entregado" || p.estado === "cancelado";
 
-                        // Función para estilo de botón según disabled
+
                         const buttonStyle = (disabled, bgColor) => ({
                             backgroundColor: disabled ? "#ccc" : bgColor,
                             color: disabled ? "#666" : "#fff",
@@ -299,7 +299,6 @@ function Admin() {
                                     </ul>
                                 </div>
 
-                                {/* ADMIN puede actualizar estado */}
                                 <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "pendiente")}
