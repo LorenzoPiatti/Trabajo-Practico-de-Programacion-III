@@ -1,7 +1,7 @@
-import { useCartStore } from "../../store/CartStore";
+import { useCart } from "../../context/CartContext";
 
 function CartSummary() {
-  const cart = useCartStore((state) => state.cart);
+  const { cart } = useCart(); // ✅ usamos contexto en lugar de zustand
 
   const total = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,

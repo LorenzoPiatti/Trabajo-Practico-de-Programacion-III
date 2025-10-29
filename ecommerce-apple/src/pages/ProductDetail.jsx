@@ -3,13 +3,13 @@ import products from "../data/products";
 import Button from "../components/ui/Button";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import { useCartStore } from "../store/CartStore";
+import { useCart } from "../context/CartContext"; // ✅ usamos el nuevo hook
 
 function ProductDetail() {
   const { id } = useParams();
   const product = products.find((p) => p.id === parseInt(id));
 
-  const addToCart = useCartStore((state) => state.addToCart);
+  const { addToCart } = useCart(); // ✅ obtenemos la función desde el contexto
 
   if (!product) {
     return <p>Producto no encontrado</p>;

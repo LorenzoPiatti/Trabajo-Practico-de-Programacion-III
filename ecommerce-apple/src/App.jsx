@@ -13,7 +13,6 @@ import Orders from "./pages/Orders";
 
 function App() {
   return (
-    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog />} />
@@ -52,7 +51,6 @@ function App() {
           }
         />
       </Routes>
-    </BrowserRouter>
   );
 }
 
