@@ -54,16 +54,15 @@ function Admin() {
             alert("El nombre del producto no puede estar vacío");
             return;
         }
-
         if (!productForm.price || Number(productForm.price) <= 0) {
             alert("El precio debe ser mayor a 0");
             return;
         }
-
         if (productForm.image && !/^https?:\/\/.+\..+/.test(productForm.image)) {
             alert("Ingrese una URL válida para la imagen");
             return;
         }
+
         try {
             const method = productForm.id ? "PUT" : "POST";
             const url = productForm.id
@@ -170,7 +169,6 @@ function Admin() {
                                 required
                             />
                         </div>
-
                         <div className="form-field">
                             <label>Descripción</label>
                             <Input
@@ -181,7 +179,6 @@ function Admin() {
                                 onChange={handleProductChange}
                             />
                         </div>
-
                         <div className="form-field">
                             <label>Precio</label>
                             <Input
@@ -193,7 +190,6 @@ function Admin() {
                                 required
                             />
                         </div>
-
                         <div className="form-field">
                             <label>Categoría</label>
                             <Input
@@ -204,13 +200,12 @@ function Admin() {
                                 onChange={handleProductChange}
                             />
                         </div>
-
                         <div className="form-field">
                             <label>Imagen (URL)</label>
                             <Input
                                 type="text"
                                 name="image"
-                                placeholder=" URL de la imagen"
+                                placeholder="URL de la imagen"
                                 value={productForm.image}
                                 onChange={handleProductChange}
                             />
@@ -227,7 +222,6 @@ function Admin() {
                                 />
                             )}
                         </div>
-
                         <div className="form-field checkbox-field">
                             <label>Destacado</label>
                             <input
@@ -237,30 +231,10 @@ function Admin() {
                                 onChange={handleProductChange}
                             />
                         </div>
-
                         <Button type="submit">
                             {productForm.id ? "Guardar Cambios" : "Agregar Producto"}
                         </Button>
                     </form>
-                </div>
-
-                {/* --- Lista de productos --- */}
-                <div className="form-container">
-                    <h2>Productos Existentes</h2>
-                    {products.length === 0 && <p>No hay productos</p>}
-                    {products.map((p) => (
-                        <div
-                            key={p.id}
-                            className="form-field"
-                            style={{ flexDirection: "row", alignItems: "center" }}
-                        >
-                            <span style={{ flex: 1 }}>
-                                {p.name} - ${p.price}
-                            </span>
-                            <Button onClick={() => handleEditProduct(p)}>Editar</Button>
-                            <Button onClick={() => handleDeleteProduct(p.id)}>Eliminar</Button>
-                        </div>
-                    ))}
                 </div>
 
                 {/* --- Lista Pedidos --- */}
@@ -275,13 +249,13 @@ function Admin() {
                             productos = [];
                         }
 
-
-                        const isDisabled = p.estado === "entregado" || p.estado === "cancelado";
-
+                        const isEntregado = p.estado === "entregado";
+                        const isCancelado = p.estado === "cancelado";
+                        const isDisabled = isEntregado || isCancelado;
 
                         const buttonStyle = (disabled, bgColor) => ({
                             backgroundColor: disabled ? "#ccc" : bgColor,
-                            color: disabled ? "#666" : "#fff",
+                            color: disabled ? "#fff" : "#fff",
                         });
 
                         return (
@@ -295,7 +269,7 @@ function Admin() {
                                     borderRadius: "10px",
                                     padding: "10px",
                                     marginBottom: "10px",
-                                    backgroundColor: "#f9f9f9",
+                                    backgroundColor: "var(--bg-color)",
                                 }}
                             >
                                 <p><strong>ID:</strong> {p.id}</p>
@@ -317,21 +291,31 @@ function Admin() {
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "pendiente")}
                                         disabled={isDisabled || p.estado === "pendiente"}
-                                        style={buttonStyle(isDisabled || p.estado === "pendiente", "#007bff")}
+                                        style={buttonStyle(isDisabled || p.estado === "pendiente", "#888")}
                                     >
                                         Pendiente
                                     </Button>
+
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "enviando")}
                                         disabled={isDisabled || p.estado === "enviando"}
-                                        style={buttonStyle(isDisabled || p.estado === "enviando", "#28a745")}
+                                        style={buttonStyle(isDisabled || p.estado === "enviando", "#888")}
                                     >
                                         Enviando
                                     </Button>
+
+                                    <Button
+                                        onClick={() => handleUpdatePedido(p.id, "entregado")}
+                                        disabled={isDisabled || p.estado === "entregado"}
+                                        style={buttonStyle(isDisabled || p.estado === "entregado", "#888")}
+                                    >
+                                        Entregado
+                                    </Button>
+
                                     <Button
                                         onClick={() => handleUpdatePedido(p.id, "cancelado")}
-                                        disabled={isDisabled || p.estado === "cancelado"}
-                                        style={buttonStyle(isDisabled || p.estado === "cancelado", "#ff4d4d")}
+                                        disabled={isCancelado || isEntregado}
+                                        style={buttonStyle(isCancelado || isEntregado, "#ff4d4d")}
                                     >
                                         Cancelar
                                     </Button>
