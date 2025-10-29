@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import { useCart } from "../context/CartContext"; // ✅ usamos el nuevo contexto
+import { useCart } from "../context/CartContext"; 
 import CartItem from "../components/cart/CartItem";
 import CartSummary from "../components/cart/CartSummary";
 import { AuthContext } from "../context/AuthContext";
@@ -10,7 +10,7 @@ import Button from "../components/ui/Button";
 
 function Cart() {
   const { user } = useContext(AuthContext);
-  const { cart, clearCart } = useCart(); // ✅ usamos el contexto
+  const { cart, clearCart } = useCart(); 
   const [loading, setLoading] = useState(false);
 
   const handlePurchase = async () => {

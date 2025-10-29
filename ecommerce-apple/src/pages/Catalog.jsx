@@ -8,7 +8,7 @@ function Catalog() {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
 
-  // 🔹 Cargar productos desde el backend
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -28,7 +28,7 @@ function Catalog() {
     fetchProducts();
   }, []);
 
-  // 🔹 Mantiene tu lógica original
+  
   const filteredProducts = category
     ? products.filter(
         (p) => p.category && p.category.toLowerCase() === category.toLowerCase()
